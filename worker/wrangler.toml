@@ -1,0 +1,17 @@
+name = "jrcorp-api"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[kv_namespaces]]
+binding = "JRCORP_KV"
+id = "379ca61730dc4c099424ea9f9563bfd1"
+preview_id = "34474e1b241a4922a704fd1638004bbb"
+
+[vars]
+ENVIRONMENT = "production"
+
+# Uncomment and configure to bind to a custom domain:
+# [[routes]]
+# pattern = "api.jrcorp.com/*"
+# zone_name = "jrcorp.com"
