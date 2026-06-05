@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { api, type Client } from "@/lib/api";
 import { Badge } from "@/components/Badge";
 import { Modal } from "@/components/Modal";
-import { Plus, Search } from "lucide-react";
+import { Plus, Search, ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 type Form = Omit<Client, "tenantId" | "status" | "createdAt">;
 const EMPTY: Form = {
@@ -86,19 +87,29 @@ export default function ClientsPage() {
           </thead>
           <tbody className="divide-y divide-gray-50">
             {filtered.map(c => (
-              <tr key={c.tenantId} className="hover:bg-gray-50/50">
-                <td className="px-6 py-3 font-medium text-gray-900">{c.companyName}</td>
+              <tr key={c.tenantId} className="hover:bg-gray-50/50 cursor-pointer group">
+                <td className="px-6 py-3 font-medium text-gray-900">
+                  <Link href={`/admin/clients/detail?id=${c.tenantId}`} className="block">
+                    {c.companyName}
+                  </Link>
+                </td>
                 <td className="px-6 py-3 text-gray-500">{c.taxId}</td>
                 <td className="px-6 py-3 text-gray-500">{c.address.city}/{c.address.state}</td>
                 <td className="px-6 py-3 text-gray-500">{c.contactEmail}</td>
                 <td className="px-6 py-3"><Badge value={c.status} /></td>
                 <td className="px-6 py-3">
-                  <button
-                    onClick={() => toggleStatus(c)}
-                    className="text-xs text-blue-600 hover:underline"
-                  >
-                    {c.status === "active" ? "Suspender" : "Reativar"}
-                  </button>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => toggleStatus(c)}
+                      className="text-xs text-blue-600 hover:underline"
+                    >
+                      {c.status === "active" ? "Suspender" : "Reativar"}
+                    </button>
+                    <Link href={`/admin/clients/detail?id=${c.tenantId}`}
+                      className="text-gray-300 group-hover:text-gray-500 transition-colors">
+                      <ChevronRight size={16} />
+                    </Link>
+                  </div>
                 </td>
               </tr>
             ))}
