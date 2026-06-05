@@ -12,7 +12,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [ready, setReady] = useState(false);
   const [adminEmail, setAdminEmail] = useState("");
 
-  const isLoginPage = pathname === "/admin/login";
+  const isLoginPage = pathname?.startsWith("/admin/login") ?? false;
 
   useEffect(() => {
     if (isLoginPage) { setReady(true); return; }
