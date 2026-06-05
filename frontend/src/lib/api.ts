@@ -2,7 +2,12 @@ const BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8787";
 
 function getToken(): string {
   if (typeof window === "undefined") return "";
-  return localStorage.getItem("jrcorp_token") ?? "";
+  // Prefer admin token when present, fallback to client token
+  return (
+    localStorage.getItem("jrcorp_admin_token") ||
+    localStorage.getItem("jrcorp_token") ||
+    ""
+  );
 }
 
 async function req<T>(path: string, init?: RequestInit): Promise<T> {
@@ -122,5 +127,14 @@ export const api = {
         body: JSON.stringify(body),
       }),
     me: () => req<Client>("/api/auth/me"),
+  },
+  admin: {
+    login: (body: { email: string; password: string }) =>
+      req<{ token: string; email: string }>("/api/admin/login", {
+        method: "POST",
+        body: JSON.stringify(body),
+      }),
+    me: () => req<{ email: string; role: string }>("/api/admin/me"),
+    logout: () => req<{ ok: boolean }>("/api/admin/logout", { method: "POST" }),
   },
 };

@@ -1,5 +1,8 @@
 export interface Env {
   JRCORP_KV: KVNamespace;
+  // Wrangler secrets (set via: wrangler secret put ADMIN_EMAIL / ADMIN_PASSWORD_HASH)
+  ADMIN_EMAIL: string;
+  ADMIN_PASSWORD_HASH: string; // format: "<salt>:<pbkdf2-hex>"
 }
 
 export type ServiceType = "DEDETIZACAO" | "COLETA_RESIDUOS" | "HIGIENIZACAO";
